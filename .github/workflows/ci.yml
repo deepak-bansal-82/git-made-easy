@@ -26,7 +26,7 @@ jobs:
       - name: Run ruff
         run: ruff check .
 
-  test:
+  test-matrix:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -45,6 +45,14 @@ jobs:
 
       - name: Run tests
         run: pytest -v
+
+  # Single gate job so branch protection can require a status check named "test"
+  # (the matrix above posts "test-matrix (3.x)" contexts, not a plain "test").
+  test:
+    needs: [test-matrix]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "All test-matrix jobs passed."
 
   security:
     runs-on: ubuntu-latest
@@ -69,7 +77,7 @@ jobs:
   # Runs only when a "v*" tag is pushed (e.g. v1.0.0), using the GITHUB_TOKEN
   # secret that GitHub auto-generates for every run — no manual secret needed.
   release:
-    needs: [lint, test, security]
+    needs: [lint, test, test-matrix, security]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
