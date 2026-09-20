@@ -27,7 +27,7 @@ Result: 3
 Power uses binary input:
 
 ```bash
-Enter an expression (for example, 10 + 20, sqrt 9, or √ 9): 2 power 4
+Enter an expression (for example, 10 + 20, 2 power 4, sqrt 9, or √ 9): 2 power 4
 Result: 16
 ```
 
