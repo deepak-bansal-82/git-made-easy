@@ -1,6 +1,6 @@
 # Simple Calculator
 
-A small Python calculator supporting addition, subtraction, multiplication, division, modulo, and square root.
+A small Python calculator supporting addition, subtraction, multiplication, division, modulo, and square root via `sqrt` or `√`.
 
 ## Usage
 
@@ -20,7 +20,7 @@ Result: 36
 Square root uses unary input:
 
 ```bash
-Enter an expression (for example, 10 + 20 or sqrt 9): sqrt 9
+Enter an expression (for example, 10 + 20, sqrt 9, or √ 9): sqrt 9
 Result: 3
 ```
 

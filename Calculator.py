@@ -54,7 +54,7 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
 def main() -> None:
     """Read an expression from the console and print its result."""
     expression = input(
-        "Enter an expression (for example, 10 + 20 or sqrt 9): "
+        "Enter an expression (for example, 10 + 20, sqrt 9, or √ 9): "
     ).split()
     unary_operators = {"sqrt", "√"}
     if len(expression) == 2 and expression[0] in unary_operators:
@@ -66,7 +66,10 @@ def main() -> None:
         operator = expression[1]
         second_text = expression[2]
     else:
-        print("Error: enter 'sqrt <number>' or '<number> <operator> <number>'.")
+        print(
+            "Error: enter 'sqrt <number>', '√ <number>', or "
+            "'<number> <operator> <number>'."
+        )
         return
 
     try:
