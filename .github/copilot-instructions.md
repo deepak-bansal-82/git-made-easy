@@ -22,8 +22,9 @@
 - **Fixtures:** Leverage pytest fixtures for mock data and setup/teardown logic.
 
 ## Development Workflow
-- **Issue Required:** Every change or PR must be tied to a GitHub issue. The issue holds the high-level requirement; if no issue exists for the requested work, create one before doing anything else.
+- **Issue Required:** Every repository task must start with a GitHub issue that captures the high-level requirement. If no issue exists for the requested work, create one before doing anything else.
+- **Assignment Required:** Assign the issue to the responsible agent before planning begins.
 - **Two-Phase, HITL Process:** Work happens in two distinct phases with a human approval gate between them. Never skip straight to implementation.
-  1. **Planning phase (Planning Agent role):** Analyze the high-level requirement in the issue and post a detailed plan as a comment on that same issue — approach, affected files, edge cases/risks, and test strategy. Do not write or change any code in this phase.
-  2. **Approval gate:** Wait for a human to review the plan and apply the `plan-approved` label to the issue. Do not proceed without this.
-  3. **Execution phase (Execution Agent role):** Only after the issue is labeled `plan-approved`, implement exactly what the approved plan describes, then open a PR that links back to the issue (e.g. `Closes #123`) and references the approved plan comment.
+  1. **Planning phase (Planning Agent role):** Analyze the high-level requirement in the issue and post a detailed plan on that same issue, or update the PR description when a PR already exists. The plan must document scope, affected files, risks, and validation. During planning, do not modify source files, tests, configuration, or any other repository files.
+  2. **Approval gate:** Wait for a human to approve the plan on the issue or PR before implementation. Approval must be recorded by the repository's agreed approval marker (`plan-approved` label or an explicit approval comment). Agent-generated approval does not satisfy this gate.
+  3. **Execution phase (Execution Agent role):** Only after human approval may the execution agent modify code or other repository files, and it must implement exactly what the approved plan describes. The resulting PR must link back to the issue (for example, `Closes #123`) and identify the approved plan comment or approval record.
