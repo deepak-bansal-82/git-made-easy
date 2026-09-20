@@ -45,7 +45,8 @@ def main() -> None:
     expression = input(
         "Enter an expression (for example, 10 + 20 or sqrt 9): "
     ).split()
-    if len(expression) == 2:
+    unary_operators = {"sqrt", "√"}
+    if len(expression) == 2 and expression[0] in unary_operators:
         operator = expression[0]
         first_text = expression[1]
         second_text = None

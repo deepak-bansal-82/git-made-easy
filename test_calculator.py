@@ -58,3 +58,11 @@ def test_main_reports_invalid_expression(monkeypatch, capsys) -> None:
     main()
 
     assert "sqrt <number>" in capsys.readouterr().out.lower()
+
+
+def test_main_rejects_incomplete_binary_expression(monkeypatch, capsys) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "/ 2")
+
+    main()
+
+    assert "sqrt <number>" in capsys.readouterr().out.lower()
