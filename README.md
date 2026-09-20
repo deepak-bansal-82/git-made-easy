@@ -24,7 +24,7 @@ Enter an expression (for example, 10 + 20, sqrt 9, or √ 9): sqrt 9
 Result: 3
 ```
 
-Division by zero and unsupported operators are rejected with an error. ..
+Division by zero and unsupported operators are rejected with an error.
 
 Run the test suite with:
 

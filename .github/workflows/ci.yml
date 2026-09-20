@@ -69,7 +69,7 @@ jobs:
   # Runs only when a "v*" tag is pushed (e.g. v1.0.0), using the GITHUB_TOKEN
   # secret that GitHub auto-generates for every run — no manual secret needed.
   release:
-    needs: [test, security]
+    needs: [lint, test, security]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
