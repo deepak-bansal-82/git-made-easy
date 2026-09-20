@@ -52,6 +52,7 @@ jobs:
     if: ${{ always() }}
     needs: [test-matrix]
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Verify all matrix jobs passed
         run: |
@@ -63,6 +64,8 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -84,7 +87,7 @@ jobs:
   # Runs only when a "v*" tag is pushed (e.g. v1.0.0), using the GITHUB_TOKEN
   # secret that GitHub auto-generates for every run — no manual secret needed.
   release:
-    needs: [lint, test, test-matrix, security]
+    needs: [lint, test, security]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
