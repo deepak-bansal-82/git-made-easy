@@ -55,7 +55,7 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
             except ZeroDivisionError as error:
                 raise ValueError("cannot raise zero to a negative power") from error
             if isinstance(result, complex):
-                if result.imag != 0:
+                if not math.isclose(result.imag, 0.0, abs_tol=1e-12):
                     raise ValueError("power operation must return a real number")
                 return result.real
             return result
