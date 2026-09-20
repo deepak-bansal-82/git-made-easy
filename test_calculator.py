@@ -65,6 +65,16 @@ def test_main_reads_square_root_expression(monkeypatch, capsys) -> None:
     assert capsys.readouterr().out == "Result: 3\n"
 
 
+def test_main_reads_case_insensitive_square_root_expression(
+    monkeypatch, capsys
+) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "Sqrt 9")
+
+    main()
+
+    assert capsys.readouterr().out == "Result: 3\n"
+
+
 def test_main_reads_power_expression(monkeypatch, capsys) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "2 power 4")
 
