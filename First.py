@@ -1,7 +1,0 @@
-print("Deepak Bansal")
-print("first02")
-print("first101:")
-print("main fix")
-print("First 103")
-print("main new fix")
-print("first 104")
