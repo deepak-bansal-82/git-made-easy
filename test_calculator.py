@@ -5,7 +5,15 @@ from Calculator import calculate, main
 
 @pytest.mark.parametrize(
     ("operator", "expected"),
-    [("+", 15), ("-", 9), ("*", 36), ("/", 4), ("%", 0), ("power", 1728)],
+    [
+        ("+", 15),
+        ("-", 9),
+        ("*", 36),
+        ("/", 4),
+        ("%", 0),
+        ("power", 1728),
+        ("Power", 1728),
+    ],
 )
 def test_calculate_operations(operator: str, expected: float) -> None:
     assert calculate(12, operator, 3) == expected
