@@ -71,7 +71,7 @@ def main() -> None:
     else:
         print(
             "Error: enter 'sqrt <number>', '√ <number>', '<number> power <number>', or "
-            "'<number> <operator> <number>'."
+            "'<number> <operator> <number>' (text operators are case-insensitive)."
         )
         return
 
