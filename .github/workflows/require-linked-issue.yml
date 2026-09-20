@@ -4,7 +4,7 @@ name: Require Linked Issue
 # (e.g. "Closes #12", "Fixes #12", "Resolves #12", or "#12"), or if that
 # issue has not been labeled "plan-approved" (HITL plan approval gate).
 on:
-  pull_request:
+    pull_request_target:
     types: [opened, edited, synchronize, reopened]
     branches: [main]
 
