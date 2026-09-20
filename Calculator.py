@@ -7,32 +7,26 @@ import math
 
 def calculate(first: float, operator: str, second: float | None = None) -> float:
     """Apply a basic arithmetic operation to one or two numbers."""
+    if operator in {"sqrt", "√"}:
+        if first < 0:
+            raise ValueError("cannot take square root of a negative number")
+        return math.sqrt(first)
+
+    if second is None:
+        raise ValueError("second operand is required for binary operations")
+
     match operator:
-        case "sqrt" | "√":
-            if first < 0:
-                raise ValueError("cannot take square root of a negative number")
-            return math.sqrt(first)
         case "+":
-            if second is None:
-                raise ValueError("second operand is required for binary operations")
             return first + second
         case "-":
-            if second is None:
-                raise ValueError("second operand is required for binary operations")
             return first - second
         case "*":
-            if second is None:
-                raise ValueError("second operand is required for binary operations")
             return first * second
         case "/":
-            if second is None:
-                raise ValueError("second operand is required for binary operations")
             if second == 0:
                 raise ValueError("cannot divide by zero")
             return first / second
         case "%":
-            if second is None:
-                raise ValueError("second operand is required for binary operations")
             if second == 0:
                 raise ValueError("cannot divide by zero")
             return first % second
