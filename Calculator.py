@@ -6,7 +6,24 @@ import math
 
 
 def calculate(first: float, operator: str, second: float | None = None) -> float:
-    """Apply a basic arithmetic operation to one or two numbers."""
+    """Apply a supported arithmetic operation.
+
+    Args:
+        first: The primary operand. For unary square root, this is the value to
+            evaluate.
+        operator: The operator to apply. Supported values are ``+``, ``-``,
+            ``*``, ``/``, ``%``, ``sqrt``, and ``√``.
+        second: The second operand for binary operators. Leave as ``None`` for
+            unary square-root expressions.
+
+    Returns:
+        The computed arithmetic result.
+
+    Raises:
+        ValueError: If the operator is unsupported, a binary operator is used
+            without a second operand, division or modulo uses zero, or square
+            root is requested for a negative number.
+    """
     if operator in {"sqrt", "√"}:
         if first < 0:
             raise ValueError("cannot take square root of a negative number")
