@@ -49,6 +49,10 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
                 raise ValueError("cannot divide by zero")
             return first % second
         case "power":
+            if first == 0 and second < 0:
+                raise ValueError("cannot raise zero to a negative power")
+            if first < 0 and not second.is_integer():
+                raise ValueError("cannot raise a negative number to a fractional power")
             return first**second
         case _:
             raise ValueError(f"unsupported operator: {operator}")
