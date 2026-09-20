@@ -71,7 +71,9 @@ def main() -> None:
     unary square root. Text operators are parsed case-insensitively.
     """
     expression = input(
-        "Enter an expression (for example, 10 + 20, 2 power 4, sqrt 9, or √ 9): "
+        "Enter an expression (examples by operation: Add: 2 + 3 = 5, Subtract: 5 - 2 = 3, "
+        "Multiply: 2 * 3 = 6, Divide: 8 / 2 = 4, Modulo: 7 % 3 = 1, Power: 2 power 3 = 8, "
+        "Square root: sqrt 9 = 3, or √ 9 = 3): "
     ).split()
     first_operator = expression[0] if expression else ""
     if len(expression) == 2 and (first_operator == "√" or first_operator.lower() == "sqrt"):

@@ -97,6 +97,27 @@ def test_main_reads_power_expression(monkeypatch, capsys) -> None:
     assert capsys.readouterr().out == "Result: 16\n"
 
 
+def test_main_prompt_shows_operation_examples(monkeypatch) -> None:
+    received_prompt = ""
+
+    def fake_input(prompt: str) -> str:
+        nonlocal received_prompt
+        received_prompt = prompt
+        return "2 + 3"
+
+    monkeypatch.setattr("builtins.input", fake_input)
+
+    main()
+
+    assert "Add: 2 + 3 = 5" in received_prompt
+    assert "Subtract: 5 - 2 = 3" in received_prompt
+    assert "Multiply: 2 * 3 = 6" in received_prompt
+    assert "Divide: 8 / 2 = 4" in received_prompt
+    assert "Modulo: 7 % 3 = 1" in received_prompt
+    assert "Power: 2 power 3 = 8" in received_prompt
+    assert "Square root: sqrt 9 = 3, or √ 9 = 3" in received_prompt
+
+
 def test_main_reports_invalid_expression(monkeypatch, capsys) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "12")
 
