@@ -22,7 +22,8 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
     Raises:
         ValueError: If the operator is unsupported, a binary operator is used
             without a second operand, division or modulo uses zero, or square
-            root is requested for a negative number.
+                root is requested for a negative number, or power would produce a
+                non-real result.
     """
     normalized_operator = "sqrt" if operator == "√" else operator.lower()
     if normalized_operator == "sqrt":
@@ -49,11 +50,10 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
                 raise ValueError("cannot divide by zero")
             return first % second
         case "power":
-            if first == 0 and second < 0:
-                raise ValueError("cannot raise zero to a negative power")
-            if first < 0 and not float(second).is_integer():
-                raise ValueError("cannot raise a negative number to a fractional power")
-            return first**second
+            try:
+                return math.pow(first, second)
+            except ValueError as error:
+                raise ValueError("power operation must return a real number") from error
         case _:
             raise ValueError(f"unsupported operator: {operator}")
 

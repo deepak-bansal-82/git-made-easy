@@ -53,6 +53,11 @@ def test_calculate_power_accepts_integer_exponent_for_negative_base() -> None:
     assert calculate(-2, "power", 3) == -8
 
 
+def test_calculate_power_rejects_non_real_result() -> None:
+    with pytest.raises(ValueError, match="must return a real number"):
+        calculate(-1, "power", 0.5)
+
+
 def test_main_reads_expression_from_console(monkeypatch, capsys) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "12 * 3")
 
