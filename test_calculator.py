@@ -5,7 +5,15 @@ from Calculator import calculate, main
 
 @pytest.mark.parametrize(
     ("operator", "expected"),
-    [("+", 15), ("-", 9), ("*", 36), ("/", 4), ("%", 0)],
+    [
+        ("+", 15),
+        ("-", 9),
+        ("*", 36),
+        ("/", 4),
+        ("%", 0),
+        ("power", 1728),
+        ("Power", 1728),
+    ],
 )
 def test_calculate_operations(operator: str, expected: float) -> None:
     assert calculate(12, operator, 3) == expected
@@ -41,6 +49,20 @@ def test_calculate_rejects_unsupported_operator() -> None:
         calculate(12, "^", 3)
 
 
+def test_calculate_power_accepts_integer_exponent_for_negative_base() -> None:
+    assert calculate(-2, "power", 3) == -8
+
+
+def test_calculate_power_rejects_non_real_result() -> None:
+    with pytest.raises(ValueError, match="must return a real number"):
+        calculate(-1, "power", 0.5)
+
+
+def test_calculate_power_rejects_zero_to_negative_power() -> None:
+    with pytest.raises(ValueError, match="cannot raise zero to a negative power"):
+        calculate(0, "power", -1)
+
+
 def test_main_reads_expression_from_console(monkeypatch, capsys) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "12 * 3")
 
@@ -55,6 +77,24 @@ def test_main_reads_square_root_expression(monkeypatch, capsys) -> None:
     main()
 
     assert capsys.readouterr().out == "Result: 3\n"
+
+
+def test_main_reads_case_insensitive_square_root_expression(
+    monkeypatch, capsys
+) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "Sqrt 9")
+
+    main()
+
+    assert capsys.readouterr().out == "Result: 3\n"
+
+
+def test_main_reads_power_expression(monkeypatch, capsys) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "2 power 4")
+
+    main()
+
+    assert capsys.readouterr().out == "Result: 16\n"
 
 
 def test_main_reports_invalid_expression(monkeypatch, capsys) -> None:
