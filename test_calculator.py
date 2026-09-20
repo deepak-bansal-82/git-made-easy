@@ -49,6 +49,10 @@ def test_calculate_rejects_unsupported_operator() -> None:
         calculate(12, "^", 3)
 
 
+def test_calculate_power_accepts_integer_exponent_for_negative_base() -> None:
+    assert calculate(-2, "power", 3) == -8
+
+
 def test_main_reads_expression_from_console(monkeypatch, capsys) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "12 * 3")
 

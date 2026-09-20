@@ -51,7 +51,7 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
         case "power":
             if first == 0 and second < 0:
                 raise ValueError("cannot raise zero to a negative power")
-            if first < 0 and not second.is_integer():
+            if first < 0 and not float(second).is_integer():
                 raise ValueError("cannot raise a negative number to a fractional power")
             return first**second
         case _:
