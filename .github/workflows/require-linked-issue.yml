@@ -21,17 +21,19 @@ jobs:
         with:
           script: |
             const body = process.env.PR_BODY || "";
-            const crossRepoMatch = body.match(/\b[\w.-]+\/[\w.-]+#\d+\b/i);
+            const crossRepoMatch = body.match(/\b[^/\s]+\/[^\s#]+#\d+\b/i);
             if (crossRepoMatch) {
               core.setFailed(`Cross-repository reference "${crossRepoMatch[0]}" is not supported. Every PR must reference an issue in this repository (e.g. 'Closes #123').`);
               return;
             }
-            const match = body.match(/(close[sd]?|fix(e[sd])?|resolve[sd]?)\s+#(\d+)/i) || body.match(/#(\d+)/);
+            const match =
+              body.match(/(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)\b/i) ||
+              body.match(/(?:^|[\s(])#(\d+)\b/);
             if (!match) {
               core.setFailed("No linked issue found in the PR description. Every PR must reference an issue (e.g. 'Closes #123').");
               return;
             }
-            const issueNumber = parseInt(match[match.length - 1], 10);
+            const issueNumber = parseInt(match[1], 10);
             const { data: issue } = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
