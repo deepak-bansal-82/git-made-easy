@@ -54,9 +54,11 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
                 result = first**second
             except ZeroDivisionError as error:
                 raise ValueError("cannot raise zero to a negative power") from error
-            if result.imag != 0:
-                raise ValueError("power operation must return a real number")
-            return result.real
+            if isinstance(result, complex):
+                if result.imag != 0:
+                    raise ValueError("power operation must return a real number")
+                return result.real
+            return result
         case _:
             raise ValueError(f"unsupported operator: {operator}")
 
