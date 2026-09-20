@@ -4,39 +4,57 @@ from Calculator import calculate, main
 
 
 @pytest.mark.parametrize(
-	("operator", "expected"),
-	[("+", 15), ("-", 9), ("*", 36), ("/", 4), ("%", 0)],
+    ("operator", "expected"),
+    [("+", 15), ("-", 9), ("*", 36), ("/", 4), ("%", 0)],
 )
 def test_calculate_operations(operator: str, expected: float) -> None:
-	assert calculate(12, operator, 3) == expected
+    assert calculate(12, operator, 3) == expected
+
+
+@pytest.mark.parametrize("operator", ["sqrt", "√"])
+def test_calculate_square_root(operator: str) -> None:
+    assert calculate(9, operator) == 3
+
+
+def test_calculate_rejects_negative_square_root() -> None:
+    with pytest.raises(ValueError, match="cannot take square root"):
+        calculate(-1, "sqrt")
 
 
 def test_calculate_rejects_division_by_zero() -> None:
-	with pytest.raises(ValueError, match="cannot divide by zero"):
-		calculate(12, "/", 0)
+    with pytest.raises(ValueError, match="cannot divide by zero"):
+        calculate(12, "/", 0)
 
 
 def test_calculate_rejects_modulo_by_zero() -> None:
-	with pytest.raises(ValueError, match="cannot divide by zero"):
-		calculate(12, "%", 0)
+    with pytest.raises(ValueError, match="cannot divide by zero"):
+        calculate(12, "%", 0)
 
 
 def test_calculate_rejects_unsupported_operator() -> None:
-	with pytest.raises(ValueError, match="unsupported operator"):
-		calculate(12, "^", 3)
+    with pytest.raises(ValueError, match="unsupported operator"):
+        calculate(12, "^", 3)
 
 
 def test_main_reads_expression_from_console(monkeypatch, capsys) -> None:
-	monkeypatch.setattr("builtins.input", lambda _: "12 * 3")
+    monkeypatch.setattr("builtins.input", lambda _: "12 * 3")
 
-	main()
+    main()
 
-	assert capsys.readouterr().out == "Result: 36\n"
+    assert capsys.readouterr().out == "Result: 36\n"
+
+
+def test_main_reads_square_root_expression(monkeypatch, capsys) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "sqrt 9")
+
+    main()
+
+    assert capsys.readouterr().out == "Result: 3\n"
 
 
 def test_main_reports_invalid_expression(monkeypatch, capsys) -> None:
-	monkeypatch.setattr("builtins.input", lambda _: "12")
+    monkeypatch.setattr("builtins.input", lambda _: "12")
 
-	main()
+    main()
 
-	assert "enter a number" in capsys.readouterr().out.lower()
+    assert "sqrt <number>" in capsys.readouterr().out.lower()
