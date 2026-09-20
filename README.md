@@ -1,6 +1,6 @@
 # Simple Calculator
 
-A small Python calculator supporting addition, subtraction, multiplication, and division.
+A small Python calculator supporting addition, subtraction, multiplication, division, and modulo.
 
 ## Usage
 

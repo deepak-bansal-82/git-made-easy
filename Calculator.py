@@ -16,6 +16,10 @@ def calculate(first: float, operator: str, second: float) -> float:
 			if second == 0:
 				raise ValueError("cannot divide by zero")
 			return first / second
+		case "%":
+			if second == 0:
+				raise ValueError("cannot divide by zero")
+			return first % second
 		case _:
 			raise ValueError(f"unsupported operator: {operator}")
 
