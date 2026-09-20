@@ -49,10 +49,17 @@ jobs:
   # Single gate job so branch protection can require a status check named "test"
   # (the matrix above posts "test-matrix (3.x)" contexts, not a plain "test").
   test:
+    if: ${{ always() }}
     needs: [test-matrix]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "All test-matrix jobs passed."
+      - name: Verify all matrix jobs passed
+        run: |
+          if [ "${{ needs.test-matrix.result }}" != "success" ]; then
+            echo "test-matrix result: ${{ needs.test-matrix.result }}"
+            exit 1
+          fi
+          echo "All test-matrix jobs passed."
 
   security:
     runs-on: ubuntu-latest
