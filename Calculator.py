@@ -51,15 +51,23 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
             return first % second
         case "power":
             try:
-                return math.pow(first, second)
-            except ValueError as error:
-                raise ValueError("power operation must return a real number") from error
+                result = first**second
+            except ZeroDivisionError as error:
+                raise ValueError("cannot raise zero to a negative power") from error
+            if result.imag != 0:
+                raise ValueError("power operation must return a real number")
+            return result.real
         case _:
             raise ValueError(f"unsupported operator: {operator}")
 
 
 def main() -> None:
-    """Read an expression from the console and print its result."""
+    """Read an expression from the console and print its result.
+
+    Supported input forms are ``<number> <operator> <number>`` for binary
+    operators (including ``power``) and ``sqrt <number>`` or ``√ <number>`` for
+    unary square root. Text operators are parsed case-insensitively.
+    """
     expression = input(
         "Enter an expression (for example, 10 + 20, 2 power 4, sqrt 9, or √ 9): "
     ).split()

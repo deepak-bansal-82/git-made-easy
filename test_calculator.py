@@ -58,6 +58,11 @@ def test_calculate_power_rejects_non_real_result() -> None:
         calculate(-1, "power", 0.5)
 
 
+def test_calculate_power_rejects_zero_to_negative_power() -> None:
+    with pytest.raises(ValueError, match="cannot raise zero to a negative power"):
+        calculate(0, "power", -1)
+
+
 def test_main_reads_expression_from_console(monkeypatch, capsys) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "12 * 3")
 
