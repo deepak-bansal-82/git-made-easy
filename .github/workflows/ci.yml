@@ -3,8 +3,10 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -24,7 +26,7 @@ jobs:
       - name: Run ruff
         run: ruff check .
 
-  test:
+  test-matrix:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,3 +45,60 @@ jobs:
 
       - name: Run tests
         run: pytest -v
+
+  # Single gate job so branch protection can require a status check named "test"
+  # (the matrix above posts "test-matrix (3.x)" contexts, not a plain "test").
+  test:
+    if: ${{ always() }}
+    needs: [test-matrix]
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Verify all matrix jobs passed
+        run: |
+          if [ "${{ needs.test-matrix.result }}" != "success" ]; then
+            echo "test-matrix result: ${{ needs.test-matrix.result }}"
+            exit 1
+          fi
+          echo "All test-matrix jobs passed."
+
+  security:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install security tools
+        run: pip install bandit pip-audit
+
+      - name: Run bandit (static code security scan)
+        run: bandit -r . -x ./tests,./test_calculator.py
+
+      - name: Run pip-audit (dependency vulnerability scan)
+        run: pip-audit -r requirements.txt
+
+  # Runs only when a "v*" tag is pushed (e.g. v1.0.0), using the GITHUB_TOKEN
+  # secret that GitHub auto-generates for every run — no manual secret needed.
+  release:
+    needs: [lint, test, security]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
