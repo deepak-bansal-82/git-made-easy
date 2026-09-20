@@ -46,7 +46,7 @@ def test_main_reads_expression_from_console(monkeypatch, capsys) -> None:
 
     main()
 
-    assert capsys.readouterr().out == "Result: 36\n"
+    assert capsys.readouterr().out == "Result:  36\n"
 
 
 def test_main_reads_square_root_expression(monkeypatch, capsys) -> None:

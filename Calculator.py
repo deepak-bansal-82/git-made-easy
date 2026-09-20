@@ -67,7 +67,7 @@ def main() -> None:
         second_text = expression[2]
     else:
         print(
-            "Error: enter 'sqrt <number>', '√ <number>', or "
+            "Error: enter 'sqrt <number>', '√ <number>', or ."
             "'<number> <operator> <number>'."
         )
         return
