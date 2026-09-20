@@ -21,6 +21,11 @@ def test_calculate_rejects_negative_square_root() -> None:
         calculate(-1, "sqrt")
 
 
+def test_calculate_rejects_missing_second_operand() -> None:
+    with pytest.raises(ValueError, match="second operand is required"):
+        calculate(12, "+")
+
+
 def test_calculate_rejects_division_by_zero() -> None:
     with pytest.raises(ValueError, match="cannot divide by zero"):
         calculate(12, "/", 0)
