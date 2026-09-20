@@ -110,7 +110,12 @@ def test_main_prompt_shows_operation_examples(monkeypatch) -> None:
     main()
 
     assert "Add: 2 + 3 = 5" in received_prompt
+    assert "Subtract: 5 - 2 = 3" in received_prompt
+    assert "Multiply: 2 * 3 = 6" in received_prompt
+    assert "Divide: 8 / 2 = 4" in received_prompt
+    assert "Modulo: 7 % 3 = 1" in received_prompt
     assert "Power: 2 power 3 = 8" in received_prompt
+    assert "Square root: sqrt 9 = 3, or √ 9 = 3" in received_prompt
 
 
 def test_main_reports_invalid_expression(monkeypatch, capsys) -> None:
