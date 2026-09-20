@@ -1,4 +1,4 @@
-"""A small console calculator."""
+"""A small console calculator. by Deepak"""
 
 from __future__ import annotations
 
