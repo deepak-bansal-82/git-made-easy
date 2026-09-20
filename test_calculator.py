@@ -5,7 +5,7 @@ from Calculator import calculate, main
 
 @pytest.mark.parametrize(
     ("operator", "expected"),
-    [("+", 15), ("-", 9), ("*", 36), ("/", 4), ("%", 0)],
+    [("+", 15), ("-", 9), ("*", 36), ("/", 4), ("%", 0), ("power", 1728)],
 )
 def test_calculate_operations(operator: str, expected: float) -> None:
     assert calculate(12, operator, 3) == expected
@@ -55,6 +55,14 @@ def test_main_reads_square_root_expression(monkeypatch, capsys) -> None:
     main()
 
     assert capsys.readouterr().out == "Result: 3\n"
+
+
+def test_main_reads_power_expression(monkeypatch, capsys) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "2 power 4")
+
+    main()
+
+    assert capsys.readouterr().out == "Result: 16\n"
 
 
 def test_main_reports_invalid_expression(monkeypatch, capsys) -> None:

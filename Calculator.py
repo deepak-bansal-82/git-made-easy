@@ -12,7 +12,7 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
         first: The primary operand. For unary square root, this is the value to
             evaluate.
         operator: The operator to apply. Supported values are ``+``, ``-``,
-            ``*``, ``/``, ``%``, ``sqrt``, and ``√``.
+            ``*``, ``/``, ``%``, ``power``, ``Power``, ``sqrt``, and ``√``.
         second: The second operand for binary operators. Leave as ``None`` for
             unary square-root expressions.
 
@@ -47,6 +47,8 @@ def calculate(first: float, operator: str, second: float | None = None) -> float
             if second == 0:
                 raise ValueError("cannot divide by zero")
             return first % second
+        case "power" | "Power":
+            return first**second
         case _:
             raise ValueError(f"unsupported operator: {operator}")
 
